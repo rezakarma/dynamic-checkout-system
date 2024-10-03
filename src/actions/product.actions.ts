@@ -131,7 +131,7 @@ export const updateProduct = async (
     if (!product) {
       return { error: "not found" };
     }
-   = await db.product.update({
+    await db.product.update({
       where: { id: id },
       data: {
         name: values.name,
@@ -148,8 +148,7 @@ export const updateProduct = async (
       },
     });
     return { success: true };
-  } catch (error: any) {
-    console.log(error, " errorOF");
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -178,7 +177,7 @@ export const deleteProduct = async (id: string) => {
       where: { id: id },
     });
     return { success: "product", product };
-  } catch (error: any) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };

@@ -139,7 +139,7 @@ export const deletePricingRule = async (id: string) => {
       where: { id: id },
     });
     return { success: "pricing rule deleted" };
-  } catch   {
+  } catch {
     return { error: "resultNotOk" };
   }
 };
