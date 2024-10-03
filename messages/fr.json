@@ -1,0 +1,84 @@
+{
+  "adminProduct": {
+    "addPricingRuleDescription": "vous pouvez ajouter plusieurs règles de tarification à votre produit",
+    "addPricingRules": "Ajouter des règles de tarification",
+    "autoSKU": "référence automatique",
+    "brand": "marque du produit",
+    "cancel": "Annuler",
+    "description": "description du produit",
+    "imageLink": "lien image du produit",
+    "name": "nom du produit",
+    "productAdded": "Produit ajouté avec succès",
+    "purchasePrice": "prix d'achat",
+    "quantity": "quantité",
+    "search": "recherche",
+    "sellPrice": "prix de vente",
+    "SKU": "SKU du produit",
+    "submit": "Soumettre"
+  },
+  "zodErrors": {
+    "confirmPassword": "Le mot de passe n'est pas le même",
+    "email": "veuillez entrer une adresse e-mail valide",
+    "emailExist": "cet email existe déjà !",
+    "invalidLogin": "Les informations saisies ne sont pas correctes",
+    "password": "Le mot de passe doit contenir entre 8 et 32 caractères",
+    "required": "Ce champ est obligatoire",
+    "username": "le nom d'utilisateur doit comporter au moins 4 caractères",
+    "usernameExist": "ce nom d'utilisateur a déjà été pris"
+  },
+  "scanProduct": {
+    "addToCart": "Ajouter au panier",
+    "brand": "Marque",
+    "enterSKU": "entrez le SKU",
+    "price": "Prix",
+    "scan": "balayage"
+  },
+  "adminPricingRules": {
+    "addPricingRules": "Ajouter des règles de tarification",
+    "description": "description de la règle de tarification",
+    "discount": "montant de la remise",
+    "free": "produit gratuit",
+    "name": "nom de la règle de tarification",
+    "pricingRuleAdded": "Règle de tarification ajoutée avec succès",
+    "pricingRulesDescription": "Vous pouvez ajouter une règle de tarification ici, puis l'ajouter à vos produits",
+    "pricingRuleType": "choisir le type de règle de tarification",
+    "threshold": "seuil de prix",
+    "typeSelectError": "veuillez sélectionner un type"
+  },
+  "navbar": {
+    "login": "se connecter",
+    "logout": "déconnexion",
+    "signup": "s'inscrire"
+  },
+  "admin": {
+    "adminDescription": "Gérez les paramètres de vos produits et les règles de tarification dynamique.",
+    "adminHeader": "Tableau de bord d'administration",
+    "dashboard": "tableau de bord",
+    "orders": "ordres",
+    "pricingRules": "règles de tarification",
+    "product": {
+      "add": "Ajouter un produit",
+      "description": "Vous pouvez ajouter vos produits en utilisant ce formulaire"
+    },
+    "products": "produits",
+    "users": "utilisateurs"
+  },
+  "home": {
+    "button": { "getStart": "commencer" },
+    "header": "Système de paiement dynamique",
+    "subheader": "le système de paiement dynamique le plus puissant pour gérer vos produits et les stocker"
+  },
+  "login": {
+    "confirmPassword": "Confirmez le mot de passe",
+    "email": "E-mail",
+    "goToLogin": "Avez-vous un compte ?",
+    "goToSignup": "tu n'as pas de compte ?",
+    "loginDescription": "Connectez-vous avec votre nom d'utilisateur et votre mot de passe",
+    "password": "Mot de passe",
+    "signupDescription": "Vous pouvez créer un compte pour utiliser notre service",
+    "username": "Nom d'utilisateur"
+  },
+  "error": {
+    "resultNotOk": "Une erreur s'est produite, vérifiez votre connexion Internet"
+  }
+}
