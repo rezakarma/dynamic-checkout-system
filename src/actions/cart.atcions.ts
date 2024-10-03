@@ -32,7 +32,7 @@ export const getCart = async () => {
       }
     }
     return userCartEixt;
-  } catch (error: any) {
+  } catch{
     return { error: "resultNotOk" };
   }
 };
@@ -149,7 +149,7 @@ export const addProductToCart = async (
         product: newCart.products[0],
       };
     }
-  } catch (error) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -219,7 +219,7 @@ export const removeProductFromCart = async (productId: string) => {
       }
     }
     return { error: "unknownError" };
-  } catch (error) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -249,7 +249,7 @@ export const clearProductCart = async () => {
     });
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };

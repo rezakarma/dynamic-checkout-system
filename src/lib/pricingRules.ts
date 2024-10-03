@@ -13,6 +13,12 @@ export interface PricingRuleResult {
   discountAmount: number | null;
 }
 
+export interface productInCart {
+  productInCart: ProductInCart & {
+    product: Product & { pricingRules: PricingRule[] };
+  }
+}
+
 export function applyPricingRules(
   productInCart: ProductInCart & {
     product: Product & { pricingRules: PricingRule[] };

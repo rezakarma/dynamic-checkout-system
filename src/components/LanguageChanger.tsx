@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChangeEvent } from "react";
 
 type LanguageChangerProps = {
   locale: string;
@@ -29,7 +28,6 @@ export default function LanguageChanger({ locale }: LanguageChangerProps) {
       <SelectContent>
         <SelectItem value="en">English</SelectItem>
         <SelectItem value="de">Deutsch</SelectItem>
-        {/* <SelectItem value="fr">french</SelectItem> */}
         <SelectItem value="fa">فارسی</SelectItem>
       </SelectContent>
     </Select>

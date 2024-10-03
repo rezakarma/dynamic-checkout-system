@@ -14,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown } from "lucide-react";
-import AddProduct from "@/components/admin/products/addProduct";
 import DeleteProductButton from "@/components/admin/products/deleteProductButton";
 import AddPricingRules from "@/components/admin/pricingRules/addPricingRules";
 // This type is used to define the shape of our data.

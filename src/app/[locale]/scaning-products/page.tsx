@@ -4,7 +4,6 @@ import ProductList from "@/components/scaningProducts/productList";
 import ScanProduct from "@/components/scaningProducts/scanProduct";
 import { Separator } from "@/components/ui/separator";
 import useDebounce from "@/hooks/useDebounce";
-import { Divider } from "@nextui-org/divider";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,7 +11,7 @@ const ScaningProductPage = () => {
   const [SKU, setSKU] = useState("");
   const debouncedSKU = useDebounce(SKU);
 
-  const { isPending, isError, data, error } = useQuery({
+  const { isPending, data } = useQuery({
     queryKey: ["products", debouncedSKU],
     queryFn: async () => {
       const result = await getAllProducts(debouncedSKU);

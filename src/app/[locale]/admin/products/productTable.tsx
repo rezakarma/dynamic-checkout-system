@@ -19,7 +19,7 @@ async function getData(): Promise<Product[]> {
 }
 
 export default function ProductTable() {
-  const { isPending, isError, data, error } = useQuery({
+  const { isPending, data } = useQuery({
     queryKey: ["products"],
     queryFn: getData,
   });

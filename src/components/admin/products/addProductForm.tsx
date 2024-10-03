@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,11 +16,16 @@ import { Switch } from "@/components/ui/switch";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
-import { useEffect, useState, useTransition } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import PricingRulesIdSelector from "./pricingRulesSelector";
 import { Label } from "@/components/ui/label";
-import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import {
   addProduct,
   getProduct,
@@ -29,16 +33,15 @@ import {
 } from "@/actions/product.actions";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 const AddProductForm = ({
   id,
   setSheetOpen,
 }: {
   id: string | null;
-  setSheetOpen: (boolean: boolean) => void;
+  setSheetOpen: Dispatch<SetStateAction<undefined | boolean>>;
 }) => {
   const t = useTranslations("adminProduct");
-  const te = useTranslations("error");
   const tz = useTranslations("zodErrors");
   const [pricingRules, setPricingRules] = useState<string[] | []>([]);
   const [autoSKU, setAutoSKU] = useState<boolean>(true);
@@ -46,7 +49,7 @@ const AddProductForm = ({
 
   const form = useForm<z.infer<typeof PorductSchema>>({
     resolver: zodResolver(PorductSchema, {
-      errorMap(issue, ctx) {
+      errorMap() {
         return { message: tz("required") };
       },
     }),

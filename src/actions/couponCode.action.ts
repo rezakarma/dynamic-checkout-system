@@ -31,8 +31,7 @@ export const addCouponCode = async (
       },
     });
     return { success: true };
-  } catch (error: any) {
-    console.log("heere: ", error);
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -62,7 +61,7 @@ export const getCouponCode = async (code: string) => {
       return { error: "code quantity is finished" };
     }
     return { success: true, couponCode: couponEXist };
-  } catch (error: any) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };

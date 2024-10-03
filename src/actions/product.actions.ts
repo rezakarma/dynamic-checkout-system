@@ -57,8 +57,7 @@ export const addProduct = async (values: z.infer<typeof PorductSchema>) => {
       },
     });
     return { success: true };
-  } catch (error: any) {
-    console.log(error, " skusss");
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -73,7 +72,7 @@ export const getAllProducts = async (SKU: string) => {
 
     const products = await db.product.findMany({ where });
     return { success: true, products: products };
-  } catch (error: any) {
+  } catch{
     return { error: "resultNotOk" };
   }
 };
@@ -90,7 +89,7 @@ export const getProduct = async (id: string) => {
       return { error: "not found" };
     }
     return { success: true, product };
-  } catch (error: any) {
+  } catch  {
     return { error: "resultNotOk" };
   }
 };
@@ -132,7 +131,7 @@ export const updateProduct = async (
     if (!product) {
       return { error: "not found" };
     }
-    const updateProduct = await db.product.update({
+   = await db.product.update({
       where: { id: id },
       data: {
         name: values.name,

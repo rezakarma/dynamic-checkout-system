@@ -6,13 +6,15 @@ import { Loader2, ScanBarcode } from "lucide-react";
 import { useTransition } from "react";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@/store/cart-slice";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "@/store/store";
 interface ScanProduct {
   SKU: string;
   setSKU: (SKU: string) => void;
 }
-const ScanProduct = ({ SKU, setSKU }) => {
+const ScanProduct = ({ SKU, setSKU }:ScanProduct) => {
   const t = useTranslations("scanProduct");
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
   const [ispendingAdd, startTransitionAdd] = useTransition();
   const addItemHandler = () => {
     startTransitionAdd(() => {

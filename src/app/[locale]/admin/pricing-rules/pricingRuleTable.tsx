@@ -19,7 +19,7 @@ async function getData(): Promise<PricingRule[]> {
 }
 
 export default function PricingRulesTable() {
-  const { isPending, isError, data, error } = useQuery({
+  const { isPending, data } = useQuery({
     queryKey: ["pricingRules"],
     queryFn: getData,
   });

@@ -4,12 +4,9 @@ import { loginSchemaWithUsername, signupClientSchema } from "@/schema";
 import { z } from "zod";
 import { hash, verify } from "@node-rs/argon2";
 import { generateIdFromEntropySize } from "lucia";
-import prisma from "@prisma/client";
 import { db } from "@/lib/db";
 import { lucia, validateRequest } from "@/auth";
 import { cookies } from "next/headers";
-import { useTranslations } from "next-intl";
-import { redirect } from "next/navigation";
 export const signUp = async (values: z.infer<typeof signupClientSchema>) => {
   const validatedFields = signupClientSchema.safeParse(values);
 
@@ -63,7 +60,7 @@ export const signUp = async (values: z.infer<typeof signupClientSchema>) => {
       sessionCookie.attributes
     );
     return { success: true };
-  } catch (error: any) {
+  } catch (error:unknown) {
     return { error: error?.message };
   }
 };
@@ -103,7 +100,7 @@ export const login = async (
       sessionCookie.attributes
     );
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return { error: error?.message };
   }
 };
@@ -122,7 +119,7 @@ export const signOut = async () => {
       sessionCookie.attributes
     );
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return { error: error?.message };
   }
 };

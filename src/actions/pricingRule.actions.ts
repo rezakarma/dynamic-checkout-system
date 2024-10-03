@@ -2,7 +2,6 @@
 
 import { validateRequest } from "@/auth";
 import { db } from "@/lib/db";
-import { SKUGenerator } from "@/lib/utils";
 import { PercentageDiscount, VolumePricing, NforX } from "@/schema";
 import { PricingRuleType } from "@prisma/client";
 import { z } from "zod";
@@ -37,8 +36,7 @@ export const addPricingRule = async (
       },
     });
     return { success: true };
-  } catch (error: any) {
-    console.log("heere: ", error);
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -47,7 +45,7 @@ export const getAllPrcingRules = async () => {
   try {
     const PricingRules = await db.pricingRule.findMany();
     return { success: true, PricingRules: PricingRules };
-  } catch (error: any) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -61,7 +59,7 @@ export const getPrcingRule = async (id: string) => {
       return { error: "not found" };
     }
     return { success: true, prcingRule };
-  } catch (error: any) {
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -100,7 +98,7 @@ export const updatePricingRule = async (
     if (!pricingRule) {
       return { error: "not found" };
     }
-    const updatePricingRule = await db.pricingRule.update({
+    await db.pricingRule.update({
       where: { id: id },
       data: {
         name: values.name,
@@ -114,7 +112,7 @@ export const updatePricingRule = async (
       },
     });
     return { success: true };
-  } catch (error: any) {
+  } catch {
     console.log("error of thisss:: ", error);
     return { error: "resultNotOk" };
   }
@@ -141,7 +139,7 @@ export const deletePricingRule = async (id: string) => {
       where: { id: id },
     });
     return { success: "pricing rule deleted" };
-  } catch (error: any) {
+  } catch   {
     return { error: "resultNotOk" };
   }
 };

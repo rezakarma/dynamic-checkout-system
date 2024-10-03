@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -12,17 +11,21 @@ import { Separator } from "../ui/separator";
 import CouponCode from "./couponCode";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
-import { applyPricingRules } from "@/lib/pricingRules";
 import { calculateCartTotals } from "@/lib/calculateCartTotals";
-import React, { useCallback, useEffect, useMemo, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
+import { RootState } from "@/store/store";
 const initialState = {
   originalTotalPrice: 0,
   discountAmount: 0,
   priceAfterDiscount: 0,
   discountFromCoupon: 0,
 };
+interface Action<T> {
+  type: string;
+  payload: T;
+}
 
-const reducer = (state, action) => {
+const reducer = (state: typeof initialState, action: Action<number>) => {
   switch (action.type) {
     case "SET_ORIGINAL_PRICE":
       return { ...state, originalTotalPrice: action.payload };
@@ -42,8 +45,8 @@ const CheckoutSummary = () => {
   const tc = useTranslations("couponCodes");
   const tp = useTranslations("adminPricingRules");
 
-  const products = useSelector((state) => state.cart.products);
-  const couponCode = useSelector((state) => state.cart.couponCode);
+  const products = useSelector((state: RootState) => state.cart.products);
+  const couponCode = useSelector((state: RootState) => state.cart.couponCode);
   const calculateCartTotalsMemoized = useCallback(calculateCartTotals, []);
 
   // const { originalTotalPrice, discountAmount, priceAfterDiscount } = useMemo(

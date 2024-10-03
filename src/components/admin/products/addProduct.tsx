@@ -16,7 +16,7 @@ import { useState } from "react";
 const AddProduct = ({ id = null }: { id: string | null }) => {
   const t = useTranslations("admin");
   const tp = useTranslations("adminProduct");
-  const [sheetOpen, setSheetOpen] = useState();
+  const [sheetOpen, setSheetOpen] = useState<boolean|undefined>();
 
   return (
     <Sheet open={sheetOpen}>

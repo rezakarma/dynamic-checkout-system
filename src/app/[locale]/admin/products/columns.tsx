@@ -25,7 +25,7 @@ export type Product = {
   purchasePrice: number;
   sellPrice: number;
   quantity: number;
-  SKU: String;
+  SKU: string;
 };
 
 export const columns: ColumnDef<Product>[] = [

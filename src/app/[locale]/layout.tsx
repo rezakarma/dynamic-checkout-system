@@ -5,16 +5,6 @@ import { NextIntlClientProvider, useMessages } from "next-intl";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { locales } from "../../navigation";
 import Navbar from "@/components/navbar/navbar";
-const geistSans = localFont({
-  src: "../fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "../fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 const vazirFont = localFont({
   src: "../fonts/Vazirmatn[wght].woff2",

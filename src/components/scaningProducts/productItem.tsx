@@ -1,29 +1,24 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Code, Image } from "@nextui-org/react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Image } from "@nextui-org/react";
 import { Product } from "@prisma/client";
 import { removeProduct, addProduct } from "@/store/cart-slice";
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
-import { Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { Loader2, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useTransition } from "react";
 import { applyPricingRules, PricingRuleResult } from "@/lib/pricingRules";
-import { ProductInCart } from "@/types/cart.types";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "@/store/store";
+import { customProductInCart } from "@/types/cart.types";
 const placeHolderImage = process.env.NEXT_PUBLIC_IMAGE_PLACEHOLDR;
 interface ProductItemProps {
   product: Product;
   type: "Product" | "CartProduct" | "Summray";
   count: number | null;
-  productInCart: ProductInCart | null;
+  productInCart: customProductInCart | null;
 }
 const ProductItem = ({
   product,
@@ -36,9 +31,9 @@ const ProductItem = ({
   const tc = useTranslations("checkoutSummary");
   const tca = useTranslations("cart");
 
-  const dispatch = useDispatch();
   const [ispendingDel, startTransitionDel] = useTransition();
   const [ispendingAdd, startTransitionAdd] = useTransition();
+  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
   const addItemHandler = () => {
     startTransitionAdd(() => {
       dispatch(addProduct({ productId: product.id, type: "byId" }));
@@ -50,7 +45,9 @@ const ProductItem = ({
       dispatch(removeProduct(product.id));
     });
   };
-  const clearCartIsLoading = useSelector((state) => state.cart.isLoading);
+  const clearCartIsLoading = useSelector(
+    (state: RootState) => state.cart.isLoading
+  );
   useEffect(() => {
     if (!clearCartIsLoading) {
     }
@@ -61,8 +58,11 @@ const ProductItem = ({
 
   useEffect(() => {
     if (type === "Summray") {
-      const result = applyPricingRules(productInCart);
-      setPricingRulesResult(result);
+      if(productInCart){
+
+        const result = applyPricingRules(productInCart);
+        setPricingRulesResult(result);
+      }
     } else {
       setPricingRulesResult(null);
     }

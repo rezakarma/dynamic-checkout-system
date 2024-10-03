@@ -9,22 +9,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Item } from "@radix-ui/react-select";
 
 import { useQuery } from "@tanstack/react-query";
-const languages = [
-  { id: "1", name: "aa", type: "somet" },
-  { id: "2", name: "aa", type: "somet" },
-  { id: "3", name: "aa", type: "somet" },
-  { id: "4", name: "aa", type: "somet" },
-];
-import { CircleDollarSign, Loader2, PackagePlus, Plus, Search } from "lucide-react";
-import PricingRulesSelectorItem from "./pricingRulesSelectorIten";
+import { CircleDollarSign, Loader2} from "lucide-react";
+import PricingRulesSelectorItem from "./pricingRulesSelectorItem";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import AddPricingRules from "../pricingRules/addPricingRules";
 import { getAllPrcingRules } from "@/actions/pricingRule.actions";
-import { useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -38,7 +30,7 @@ const PricingRulesIdSelector = ({
 }: PricingRulesIdSelectorProps) => {
   const t = useTranslations("adminProduct");
 
-  const { isPending, isError, data, error } = useQuery({
+  const { isPending, data } = useQuery({
     queryKey: ["PrcingRules"],
     queryFn: async () => {
       const result = await getAllPrcingRules();
@@ -64,7 +56,7 @@ const PricingRulesIdSelector = ({
           <SheetTitle>{t("addPricingRules")}</SheetTitle>
           <SheetDescription>{t("addPricingRuleDescription")}</SheetDescription>
           <div className="flex flex-col items-center gap-2 pt-2">
-            <AddPricingRules />
+            <AddPricingRules id={null}/>
             <div className="flex items-center w-full gap-2">
               <Input className="w-3/4 " placeholder={t("search")} />
               <Button className="w-1/4">{t("search")}</Button>

@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -47,10 +46,8 @@ const LoginForm = () => {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof loginSchemaWithUsername>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+
     startTransition(async () => {
       const res = await login(values);
       if (res.error) {

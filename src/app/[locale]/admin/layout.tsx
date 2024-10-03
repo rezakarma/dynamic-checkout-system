@@ -1,14 +1,11 @@
 import AdminMenu from "@/components/admin/adminMenu";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 
 const AdminLayout = ({
   children,
-  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
 }>) => {
   const t = useTranslations("admin");
 

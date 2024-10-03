@@ -17,7 +17,13 @@ import { Switch } from "@/components/ui/switch";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
-import { useEffect, useState, useTransition } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import {
   Select,
@@ -29,16 +35,11 @@ import {
 } from "@/components/ui/select";
 
 import { fromDate } from "@internationalized/date";
-import {
-  addProduct,
-  getProduct,
-  updateProduct,
-} from "@/actions/product.actions";
-import { DateInput, DateRangePicker } from "@nextui-org/react";
+import { updateProduct } from "@/actions/product.actions";
+import { DateInput } from "@nextui-org/react";
 import { toast } from "sonner";
 import { CalendarIcon, Loader2 } from "lucide-react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { cn } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 import { CouponCodeType, DiscountType } from "@prisma/client";
 import { addCouponCode } from "@/actions/couponCode.action";
 const AddCouponCodesForm = ({
@@ -46,7 +47,7 @@ const AddCouponCodesForm = ({
   setSheetOpen,
 }: {
   id: string | null;
-  setSheetOpen: (boolean: boolean) => void;
+  setSheetOpen: Dispatch<SetStateAction<undefined | boolean>>;
 }) => {
   const t = useTranslations("adminProduct");
   const te = useTranslations("error");
@@ -82,14 +83,14 @@ const AddCouponCodesForm = ({
 
   const form = useForm<z.infer<typeof couponCodesSchema>>({
     resolver: zodResolver(couponCodesSchema, {
-      errorMap(issue, ctx) {
+      errorMap() {
         return { message: tz("required") };
       },
     }),
     defaultValues: {
       code: "",
-      type: null,
-      discountType: null,
+      type: undefined,
+      discountType: undefined,
       quantity: "",
       startDate: undefined,
       endDate: undefined,
@@ -145,7 +146,7 @@ const AddCouponCodesForm = ({
         if (result.success) {
           queryClient.invalidateQueries({ queryKey: ["couponCodes"] });
           setSheetOpen(false);
-          toast.success('coupon code added');
+          toast.success("coupon code added");
         } else {
           toast.error(te("resultNotOk"));
         }
@@ -153,7 +154,7 @@ const AddCouponCodesForm = ({
         const result = await addCouponCode(values);
         if (result.success) {
           queryClient.invalidateQueries({ queryKey: ["couponCodes"] });
-          toast.success('coupon code added');
+          toast.success("coupon code added");
           setSheetOpen(false);
         } else {
           toast.error(te("resultNotOk"));
@@ -176,7 +177,7 @@ const AddCouponCodesForm = ({
             <div className="flex gap-2">
               <div>
                 <Select
-                  value={couponCodeType ? couponCodeType : null}
+                  value={couponCodeType ? couponCodeType as string: undefined}
                   onValueChange={(value) => {
                     setCouponCodeType(value as CouponCodeType);
                   }}
@@ -201,7 +202,7 @@ const AddCouponCodesForm = ({
               </div>
               <div>
                 <Select
-                  value={discountType ? discountType : null}
+                  value={discountType ? discountType as string : undefined}
                   onValueChange={(value) => {
                     setDiscountType(value as DiscountType);
                   }}
@@ -290,9 +291,11 @@ const AddCouponCodesForm = ({
                       <FormLabel>{tc("from")}</FormLabel>
                       <DateInput
                         label="Start Date"
-                        value={field.value ? fromDate(field.value) : undefined}
-                        onChange={(e) => {field.onChange(e.toDate()) 
-                            console.log(e.toDate().toISOString())}}
+                        value={field.value ? fromDate(field.value, "") : undefined}
+                        onChange={(e) => {
+                          field.onChange(e.toDate());
+                          console.log(e.toDate().toISOString());
+                        }}
                         labelPlacement="outside"
                         endContent={
                           <CalendarIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -310,7 +313,7 @@ const AddCouponCodesForm = ({
                       <FormLabel>{tc("until")}</FormLabel>
                       <DateInput
                         label="End Date"
-                        value={field.value ? fromDate(field.value) : undefined}
+                        value={field.value ? fromDate(field.value,'') : undefined}
                         onChange={(e) => field.onChange(e.toDate())}
                         labelPlacement="outside"
                         isRequired={false}

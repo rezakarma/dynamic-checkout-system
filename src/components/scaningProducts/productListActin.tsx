@@ -3,17 +3,19 @@ import { Link } from "@/navigation";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 import { useDispatch, useSelector } from "react-redux";
-import { cartSliceAction, clearCart } from "@/store/cart-slice";
+import { clearCart } from "@/store/cart-slice";
 import { Loader2 } from "lucide-react";
+import { RootState } from "@/store/store";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 const ProductListAction = () => {
   const t = useTranslations("adminProduct");
   const ts = useTranslations("scanProduct");
   const clearCartIsLoading = useSelector(
-    (state) => state.cart.isLoadingClearCart
+    (state:RootState) => state.cart.isLoadingClearCart
   );
 
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
   const clearCartHandler = () => {
     dispatch(clearCart());
   };

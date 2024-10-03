@@ -12,14 +12,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ZodObject } from "zod";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useState, useTransition, useRef } from "react";
+import { useCallback, useEffect, useState, useTransition, SetStateAction, Dispatch } from "react";
 import { SheetClose } from "@/components/ui/sheet";
-import { Label } from "@/components/ui/label";
-import { addProduct } from "@/actions/product.actions";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import {
@@ -27,7 +24,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -43,7 +39,7 @@ const AddPricingRulesForm = ({
   setSheetOpen,
 }: {
   id: string | null;
-  setSheetOpen: (boolean: boolean) => void;
+  setSheetOpen: Dispatch<SetStateAction<undefined | boolean>>;
 }) => {
   const t = useTranslations("adminProduct");
   const tp = useTranslations("adminPricingRules");
@@ -124,7 +120,7 @@ const AddPricingRulesForm = ({
     z.infer<typeof NforX | typeof VolumePricing | typeof PercentageDiscount>
   >({
     resolver: zodResolver(returnZodSchema(pricingRuleType), {
-      errorMap(issue, ctx) {
+      errorMap() {
         return { message: tz("required") };
       },
     }),
@@ -346,7 +342,7 @@ const AddPricingRulesForm = ({
             type="submit"
             onClick={() => {
               if (!pricingRuleType) {
-                form.formState.errors(true);
+                form.setError('type',{message:"type can't be empty"});
               }
             }}
           >

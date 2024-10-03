@@ -15,7 +15,13 @@ import { toast } from "sonner";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getCouponCode } from "@/actions/couponCode.action";
 
-interface Cart {
+export type ProductInCartInterface = ProductInCart & {
+  product: Product & {
+    pricingRules: PricingRule[];
+  };
+};
+
+export interface Cart {
   products:
     | (ProductInCart & {
         product: Product & {
@@ -25,9 +31,9 @@ interface Cart {
     | [];
   isLoading: string | boolean;
   isLoadingClearCart: boolean;
-  error: { error: string } | string | null;
+  error: { error: string } | string | null| undefined
   couponCode: CouponCodes | null;
-  success: { success: string } | string | null;
+  success: { success: string } | string | null | undefined
 }
 
 const initialState: Cart = {
@@ -48,28 +54,28 @@ const cartSlice = createSlice({
       state.products = action.payload ? action.payload.products : [];
       state.isLoading = false;
     });
-    builder.addCase(getUserCart.pending, (state: Cart, action) => {
+    builder.addCase(getUserCart.pending, (state: Cart) => {
       state.isLoading = true;
     });
     builder.addCase(addProduct.fulfilled, (state: Cart, action) => {
       state.error = null;
-      const newProduct: Product = action.payload.product;
+      const newProduct = action?.payload?.product
       const productExistIndex = state.products.findIndex(
-        (product) => product.id === newProduct.id
+        (product) => product.id === newProduct?.id
       );
       if (productExistIndex === -1) {
         state.products.push(newProduct);
       } else {
-        state.products[productExistIndex] = newProduct;
+        state.products[productExistIndex] = newProduct 
       }
-      state.success = action.payload.success;
+      state.success = action?.payload?.success
       state.isLoading = false;
     });
-    builder.addCase(addProduct.pending, (state: Cart, action) => {
+    builder.addCase(addProduct.pending, (state: Cart) => {
       state.isLoading = true;
     });
     builder.addCase(addProduct.rejected, (state: Cart, action) => {
-      state.error = action.payload;
+      state.error = action.payload as string | { error: string };
       state.isLoading = false;
     });
     builder.addCase(removeProduct.fulfilled, (state: Cart, action) => {
@@ -93,7 +99,7 @@ const cartSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(removeProduct.rejected, (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload as string | { error: string };
       state.isLoading = false;
     });
     builder.addCase(removeProduct.pending, (state) => {
@@ -107,14 +113,14 @@ const cartSlice = createSlice({
       state.isLoadingClearCart = true;
     });
     builder.addCase(clearCart.rejected, (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload as string | { error: string };
       state.isLoadingClearCart = false;
     });
     builder.addCase(applyCouponCode.fulfilled, (state, action) => {
       state.couponCode = action.payload.couponCode;
     });
     builder.addCase(applyCouponCode.rejected, (state, action) => {
-      state.error = action.payload;
+      state.error = action.payload as string | { error: string };
     });
   },
 });
