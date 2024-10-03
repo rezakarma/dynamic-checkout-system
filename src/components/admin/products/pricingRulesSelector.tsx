@@ -76,7 +76,7 @@ const PricingRulesIdSelector = ({
             id={item.id}
             name={item.name}
             type={item.type}
-            isChecked={pricingRules.includes(item.id)}
+            isChecked={pricingRules.some((rule) => rule === item.id)}
             onCheckedChange={pricingRuleHandler}
             />
           ))}

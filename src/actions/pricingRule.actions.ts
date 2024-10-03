@@ -5,6 +5,16 @@ import { db } from "@/lib/db";
 import { PercentageDiscount, VolumePricing, NforX } from "@/schema";
 import { PricingRuleType } from "@prisma/client";
 import { z } from "zod";
+interface PricingRuleValues {
+  name: string;
+  type: string;
+  description?: string;
+  discount?: string;
+  free?: string;
+  price?: string;
+  quantity?: string;
+  threshold?: string;
+}
 
 export const addPricingRule = async (
   values: z.infer<
@@ -23,16 +33,27 @@ export const addPricingRule = async (
     return { error: "Invalid fields!" };
   }
   try {
+    const valuesAsPricingRuleValues = values as PricingRuleValues;
     await db.pricingRule.create({
       data: {
-        name: values.name,
-        type: values.type as PricingRuleType,
-        description: values.description,
-        discount: +values.discount || null,
-        free: +values.free || null,
-        price: +values.price || null,
-        quantity: +values.quantity || null,
-        threshold: +values.threshold || null,
+        name: valuesAsPricingRuleValues.name,
+        type: valuesAsPricingRuleValues.type as PricingRuleType,
+        description: valuesAsPricingRuleValues.description,
+        discount: valuesAsPricingRuleValues.discount
+          ? +valuesAsPricingRuleValues.discount
+          : null,
+        free: valuesAsPricingRuleValues.free
+          ? +valuesAsPricingRuleValues.free
+          : null,
+        price: valuesAsPricingRuleValues.price
+          ? +valuesAsPricingRuleValues.price
+          : null,
+        quantity: valuesAsPricingRuleValues.quantity
+          ? +valuesAsPricingRuleValues.quantity
+          : null,
+        threshold: valuesAsPricingRuleValues.threshold
+          ? +valuesAsPricingRuleValues.threshold
+          : null,
       },
     });
     return { success: true };
@@ -98,22 +119,32 @@ export const updatePricingRule = async (
     if (!pricingRule) {
       return { error: "not found" };
     }
+    const valuesAsPricingRuleValues = values as PricingRuleValues;
     await db.pricingRule.update({
       where: { id: id },
       data: {
-        name: values.name,
-        type: values.type as PricingRuleType,
-        description: values.description,
-        discount: +values.discount || null,
-        free: +values.free || null,
-        price: +values.price || null,
-        quantity: +values.quantity || null,
-        threshold: +values.threshold || null,
+        name: valuesAsPricingRuleValues.name,
+        type: valuesAsPricingRuleValues.type as PricingRuleType,
+        description: valuesAsPricingRuleValues.description,
+        discount: valuesAsPricingRuleValues.discount
+          ? +valuesAsPricingRuleValues.discount
+          : null,
+        free: valuesAsPricingRuleValues.free
+          ? +valuesAsPricingRuleValues.free
+          : null,
+        price: valuesAsPricingRuleValues.price
+          ? +valuesAsPricingRuleValues.price
+          : null,
+        quantity: valuesAsPricingRuleValues.quantity
+          ? +valuesAsPricingRuleValues.quantity
+          : null,
+        threshold: valuesAsPricingRuleValues.threshold
+          ? +valuesAsPricingRuleValues.threshold
+          : null,
       },
     });
     return { success: true };
   } catch {
-    console.log("error of thisss:: ", error);
     return { error: "resultNotOk" };
   }
 };

@@ -8,7 +8,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 async function getData(): Promise<PricingRule[]> {
   // Fetch data from your API here.
 
-  const result = await getAllPrcingRules("");
+  const result = await getAllPrcingRules();
 
   if (result.error) {
     throw new Error(result.error);

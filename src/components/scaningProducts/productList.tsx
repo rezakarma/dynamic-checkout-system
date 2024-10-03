@@ -9,12 +9,16 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { ScrollArea } from "../ui/scroll-area";
 
 import ProductItem from "./productItem";
-import { customProductInCart, Product, ProductInCart } from "@/types/cart.types";
+import {
+  customProductInCart,
+  Product,
+  ProductInCart,
+} from "@/types/cart.types";
 import ProductListAction from "./productListActin";
 
 interface ProductListProps {
   isPending: boolean;
-  data: customProductInCart[] | Product[];
+  data: (Product | customProductInCart)[];
   type: "CartProduct" | "Product" | "Summray";
 }
 const ProductList = ({ isPending, data, type }: ProductListProps) => {
@@ -46,18 +50,21 @@ const ProductList = ({ isPending, data, type }: ProductListProps) => {
                 data.map((product) => (
                   <ProductItem
                     type="Product"
-                    product={product as customProductInCart}
+                    product={product as Product}
                     key={product.id}
+                    productInCart={null}
+                    count={null}
                   />
                 ))}
               {type === "CartProduct" &&
                 data.length > 0 &&
                 data.map((product) => (
                   <ProductItem
-                    count={product.count}
+                    count={(product as ProductInCart).count}
                     type="CartProduct"
-                    product={product.product}
-                    key={product.product.id}
+                    product={(product as ProductInCart).product}
+                    productInCart={product as ProductInCart}
+                    key={(product as ProductInCart).product.id}
                   />
                 ))}
 
@@ -65,11 +72,11 @@ const ProductList = ({ isPending, data, type }: ProductListProps) => {
                 data.length > 0 &&
                 data.map((product) => (
                   <ProductItem
-                    count={product.count}
+                    count={(product as ProductInCart).count}
                     type="Summray"
-                    product={product.product}
+                    product={(product as ProductInCart).product}
                     productInCart={product as ProductInCart}
-                    key={product.product.id}
+                    key={(product as ProductInCart).product.id}
                   />
                 ))}
             </div>

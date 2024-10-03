@@ -72,7 +72,7 @@ export const getAllProducts = async (SKU: string) => {
 
     const products = await db.product.findMany({ where });
     return { success: true, products: products };
-  } catch{
+  } catch {
     return { error: "resultNotOk" };
   }
 };
@@ -89,7 +89,7 @@ export const getProduct = async (id: string) => {
       return { error: "not found" };
     }
     return { success: true, product };
-  } catch  {
+  } catch {
     return { error: "resultNotOk" };
   }
 };

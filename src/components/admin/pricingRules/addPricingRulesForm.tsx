@@ -15,7 +15,14 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useState, useTransition, SetStateAction, Dispatch } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+  SetStateAction,
+  Dispatch,
+} from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -66,13 +73,41 @@ const AddPricingRulesForm = ({
           const emptyObjectOfPricingRule = getEmptyObjectFromZodSchema(
             result.prcingRule.type
           );
+          const validatedValues = form.getValues() as
+            | {
+                type: string;
+                name: string;
+                quantity: string;
+                price: string;
+                description?: string | undefined;
+              }
+            | {
+                type: string;
+                name: string;
+                quantity: string;
+                free: string;
+                description?: string | undefined;
+              }
+            | {
+                type: string;
+                name: string;
+                threshold: string;
+                discount: string;
+                description?: string | undefined;
+              };
+
           Object.keys(emptyObjectOfPricingRule).forEach((key) => {
             // Check if the key exists in the data object
             if (pricingRule.hasOwnProperty(key)) {
               // Get the value from the data object
-              const value = pricingRule[key];
+              const value = pricingRule[key as keyof typeof pricingRule];
               // Set the value in the form
-              form.setValue(key, value?.toString());
+              if (key in validatedValues) {
+                form.setValue(
+                  key as keyof typeof validatedValues,
+                  value?.toString()
+                );
+              }
             }
           });
         }
@@ -98,7 +133,8 @@ const AddPricingRulesForm = ({
 
   const getEmptyObjectFromZodSchema = useCallback(
     (type: PricingRuleType | null | undefined) => {
-      const emptyObject = {};
+      const emptyObject: { [key: string]: unknown } = {};
+
       if (type === PricingRuleType.NforX) {
         for (const key in NforX.shape) {
           emptyObject[key] = "";
@@ -342,7 +378,7 @@ const AddPricingRulesForm = ({
             type="submit"
             onClick={() => {
               if (!pricingRuleType) {
-                form.setError('type',{message:"type can't be empty"});
+                form.setError("type", { message: "type can't be empty" });
               }
             }}
           >

@@ -16,7 +16,7 @@ export interface PricingRuleResult {
 export interface productInCart {
   productInCart: ProductInCart & {
     product: Product & { pricingRules: PricingRule[] };
-  }
+  };
 }
 
 export function applyPricingRules(
@@ -39,35 +39,46 @@ export function applyPricingRules(
     try {
       switch (pricingRule.type) {
         case PricingRuleType.NforX:
-          priceAfterRule = calculateNForXPrice(
-            product.sellPrice,
-            count,
-            pricingRule?.quantity,
-            pricingRule.price
-          );
+          if (pricingRule.quantity !== null && pricingRule.price !== null) {
+            priceAfterRule = calculateNForXPrice(
+              product.sellPrice,
+              count,
+              pricingRule.quantity,
+              pricingRule.price
+            );
+          } else {
+            priceAfterRule = product.sellPrice * count;
+          }
           break;
         case PricingRuleType.VolumePricing:
-          priceAfterRule = calculateVolumePricing(
-            product.sellPrice,
-            count,
-            pricingRule?.quantity,
-            pricingRule.free
-          );
+          if (pricingRule.quantity !== null && pricingRule.free !== null) {
+            priceAfterRule = calculateVolumePricing(
+              product.sellPrice,
+              count,
+              pricingRule.quantity,
+              pricingRule.free
+            );
+          } else {
+            priceAfterRule = product.sellPrice * count;
+          }
           break;
         case PricingRuleType.PercentageDiscount:
-          priceAfterRule = calculatePercentageDiscount(
-            product.sellPrice,
-            count,
-            pricingRule.threshold,
-            pricingRule.discount
-          );
+          if (pricingRule.threshold !== null && pricingRule.discount !== null) {
+            priceAfterRule = calculatePercentageDiscount(
+              product.sellPrice,
+              count,
+              pricingRule.threshold,
+              pricingRule.discount
+            );
+          } else {
+            priceAfterRule = product.sellPrice * count;
+          }
           break;
         default:
           throw new Error(`Unsupported pricing rule type: ${pricingRule.type}`);
       }
 
       if (priceAfterRule < 0) {
-        // If priceAfterRule is negative, skip this pricing rule
         return;
       }
 
@@ -78,8 +89,7 @@ export function applyPricingRules(
         originalPrice = product.sellPrice * count;
         discountAmount = originalPrice - lowestPrice;
       }
-    } catch{
-      // If any error occurs during pricing rule calculation, skip this pricing rule
+    } catch {
       return;
     }
   });

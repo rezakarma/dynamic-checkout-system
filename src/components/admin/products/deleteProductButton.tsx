@@ -22,10 +22,10 @@ const DeleteProductButton = ({
     } else if (type === "pricingRule") {
       result = await deletePricingRule(id);
     }
-    if (result.error) {
+    if (result?.error) {
       toast.error(result.error);
-    } else if (result.success) {
-      toast.success(result.success);
+    } else if (result?.success) {
+      toast.success(result?.success);
       queryClient.invalidateQueries({ queryKey: ["pricingRules"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
     }

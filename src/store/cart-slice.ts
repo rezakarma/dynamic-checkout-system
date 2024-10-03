@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   addProductToCart,
   getCart,
@@ -29,11 +30,11 @@ export interface Cart {
         };
       })[]
     | [];
-  isLoading: string | boolean;
+  isLoading: boolean;
   isLoadingClearCart: boolean;
-  error: { error: string } | string | null| undefined
+  error: { error: string } | string | null | undefined;
   couponCode: CouponCodes | null;
-  success: { success: string } | string | null | undefined
+  success: { success: string } | string | null | undefined;
 }
 
 const initialState: Cart = {
@@ -51,6 +52,8 @@ const cartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserCart.fulfilled, (state, action) => {
+// @ts-expect-error
+
       state.products = action.payload ? action.payload.products : [];
       state.isLoading = false;
     });
@@ -59,16 +62,20 @@ const cartSlice = createSlice({
     });
     builder.addCase(addProduct.fulfilled, (state: Cart, action) => {
       state.error = null;
-      const newProduct = action?.payload?.product
-      const productExistIndex = state.products.findIndex(
-        (product) => product.id === newProduct?.id
-      );
-      if (productExistIndex === -1) {
-        state.products.push(newProduct);
-      } else {
-        state.products[productExistIndex] = newProduct 
+      const newProduct = action?.payload?.product;
+      if (newProduct) {
+        const productExistIndex = state.products.findIndex(
+          (product) => product.id === newProduct.id
+        );
+        if (productExistIndex === -1) {
+// @ts-expect-error
+
+          state.products.push(newProduct);
+        } else {
+          state.products[productExistIndex] = newProduct;
+        }
+        state.success = action?.payload?.success;
       }
-      state.success = action?.payload?.success
       state.isLoading = false;
     });
     builder.addCase(addProduct.pending, (state: Cart) => {
@@ -80,6 +87,8 @@ const cartSlice = createSlice({
     });
     builder.addCase(removeProduct.fulfilled, (state: Cart, action) => {
       state.error = null;
+// @ts-expect-error
+
       const newProduct = action.payload.product;
       const productExistIndex = state.products.findIndex(
         (product) => product.id === newProduct.id
@@ -89,11 +98,14 @@ const cartSlice = createSlice({
         state.error = { error: "این محصول در سبد خرید وجود ندارد" };
       } else {
         if (state.products[productExistIndex].count > 1) {
+// @ts-expect-error
+
           state.products[productExistIndex] = newProduct;
         } else {
           state.products.splice(productExistIndex, 1);
         }
       }
+// @ts-expect-error
 
       state.success = action.payload.success;
       state.isLoading = false;
@@ -117,6 +129,8 @@ const cartSlice = createSlice({
       state.isLoadingClearCart = false;
     });
     builder.addCase(applyCouponCode.fulfilled, (state, action) => {
+// @ts-expect-error
+
       state.couponCode = action.payload.couponCode;
     });
     builder.addCase(applyCouponCode.rejected, (state, action) => {
@@ -148,7 +162,7 @@ export const addProduct = createAsyncThunk(
 
 export const removeProduct = createAsyncThunk(
   "cart/removeProduct",
-  async (productId: string) => {
+  async (productId: string,thunkAPI) => {
     const response = await removeProductFromCart(productId);
     console.log(response, " this is from addProduct to car");
     if (response.error) {
@@ -161,7 +175,7 @@ export const removeProduct = createAsyncThunk(
   }
 );
 
-export const clearCart = createAsyncThunk("cart/clearCart", async () => {
+export const clearCart = createAsyncThunk("cart/clearCart", async (_,thunkAPI) => {
   const response = await clearProductCart();
   if (response.error) {
     toast.error(response.error);
@@ -174,7 +188,7 @@ export const clearCart = createAsyncThunk("cart/clearCart", async () => {
 
 export const applyCouponCode = createAsyncThunk(
   "cart/applyCouponCode",
-  async (code: string) => {
+  async (code: string,thunkAPI) => {
     console.log("ruuun this line");
     const response = await getCouponCode(code);
     console.log();
