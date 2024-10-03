@@ -9,12 +9,12 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { ScrollArea } from "../ui/scroll-area";
 
 import ProductItem from "./productItem";
-import { Product, ProductInCart } from "@/types/cart.types";
+import { customProductInCart, Product, ProductInCart } from "@/types/cart.types";
 import ProductListAction from "./productListActin";
 
 interface ProductListProps {
   isPending: boolean;
-  data: ProductInCart[] | Product[];
+  data: customProductInCart[] | Product[];
   type: "CartProduct" | "Product" | "Summray";
 }
 const ProductList = ({ isPending, data, type }: ProductListProps) => {
@@ -46,7 +46,7 @@ const ProductList = ({ isPending, data, type }: ProductListProps) => {
                 data.map((product) => (
                   <ProductItem
                     type="Product"
-                    product={product}
+                    product={product as customProductInCart}
                     key={product.id}
                   />
                 ))}

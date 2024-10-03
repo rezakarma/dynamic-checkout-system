@@ -1,5 +1,5 @@
 "use client";
-import { couponCodesSchema, PorductSchema } from "@/schema";
+import { couponCodesSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,13 +7,11 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Switch } from "@/components/ui/switch";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
@@ -35,7 +33,6 @@ import {
 } from "@/components/ui/select";
 
 import { fromDate } from "@internationalized/date";
-import { updateProduct } from "@/actions/product.actions";
 import { DateInput } from "@nextui-org/react";
 import { toast } from "sonner";
 import { CalendarIcon, Loader2 } from "lucide-react";
@@ -142,14 +139,14 @@ const AddCouponCodesForm = ({
 
     startTransition(async () => {
       if (id) {
-        const result = await updateProduct(id, values);
-        if (result.success) {
-          queryClient.invalidateQueries({ queryKey: ["couponCodes"] });
-          setSheetOpen(false);
-          toast.success("coupon code added");
-        } else {
-          toast.error(te("resultNotOk"));
-        }
+        // const result = await updateCouponCode(id, values);
+        // if (result.success) {
+        //   queryClient.invalidateQueries({ queryKey: ["couponCodes"] });
+        //   setSheetOpen(false);
+        //   toast.success("coupon code added");
+        // } else {
+        //   toast.error(te("resultNotOk"));
+        // }
       } else {
         const result = await addCouponCode(values);
         if (result.success) {

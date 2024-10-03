@@ -42,7 +42,7 @@ export function applyPricingRules(
           priceAfterRule = calculateNForXPrice(
             product.sellPrice,
             count,
-            pricingRule.quantity,
+            pricingRule?.quantity,
             pricingRule.price
           );
           break;
@@ -50,7 +50,7 @@ export function applyPricingRules(
           priceAfterRule = calculateVolumePricing(
             product.sellPrice,
             count,
-            pricingRule.quantity,
+            pricingRule?.quantity,
             pricingRule.free
           );
           break;
@@ -78,7 +78,7 @@ export function applyPricingRules(
         originalPrice = product.sellPrice * count;
         discountAmount = originalPrice - lowestPrice;
       }
-    } catch (error) {
+    } catch{
       // If any error occurs during pricing rule calculation, skip this pricing rule
       return;
     }
