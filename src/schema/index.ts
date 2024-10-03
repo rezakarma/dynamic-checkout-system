@@ -68,6 +68,6 @@ export const couponCodesSchema = z.object({
   discountType: z.nativeEnum(DiscountType),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
-  discount: z.string().optional(),
+  discount: z.string(),
   quantity: z.string().optional(),
 });

@@ -14,13 +14,20 @@ const AdminMenuItem = ({ children, text, href }: AdminMenuItemProps) => {
   const currentPath = usePathname();
 
   return (
-    <Link href={href}>
+    <Link href={href} className="bg-white">
       <Button
         variant={currentPath === href ? "default" : "ghost"}
-        className="flex flex-row gap-3 justify-start items-center w-11/12"
+        className="flex flex-row gap-3 justify-start items-center w-11/12 xs:flex xxs:hidden"
       >
         {children}
         {t(text)}
+      </Button>
+
+      <Button
+        variant={currentPath === href ? "default" : "ghost"}
+        className=" flex-row gap-3 justify-start items-center w-11/12 hidden xs:hidden xxs:flex"
+      >
+        {children}
       </Button>
     </Link>
   );

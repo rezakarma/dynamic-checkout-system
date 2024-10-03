@@ -25,7 +25,7 @@ export default function ProductTable() {
   });
 
   return (
-    <div className="container mx-auto py-5">
+    <div className="container mx-auto py-5 md:px-2">
       {isPending && (
         <div className="flex justify-center items-center w-full h-full">
           <BeatLoader />

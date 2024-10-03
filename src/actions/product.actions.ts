@@ -2,10 +2,15 @@
 
 import { validateRequest } from "@/auth";
 import { db } from "@/lib/db";
-import { SKUGenerator } from "@/lib/utils";
+import { generateUniqueSKU, SKUGenerator } from "@/lib/utils";
 import { PorductSchema } from "@/schema";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
+
+export async function checkSKUExists(sku: string) {
+  const existingProduct = await db.product.findFirst({ where: { SKU: sku } });
+  return existingProduct !== null;
+}
 
 export const addProduct = async (values: z.infer<typeof PorductSchema>) => {
   const validatedFields = PorductSchema.safeParse(values);
@@ -25,10 +30,18 @@ export const addProduct = async (values: z.infer<typeof PorductSchema>) => {
   try {
     let SKU = "";
     if (!values.SKU) {
-      SKU = SKUGenerator(values.name, values.brand, values.sellPrice);
+      SKU = await generateUniqueSKU(
+        SKUGenerator(values.name, values.brand, values.sellPrice)
+      );
     } else {
       SKU = values.SKU;
+      const SKUExist = await checkSKUExists(SKU);
+
+      if (SKUExist) {
+        return { error: "this SKU is already exist" };
+      }
     }
+
     await db.product.create({
       data: {
         name: values.name,
@@ -45,6 +58,7 @@ export const addProduct = async (values: z.infer<typeof PorductSchema>) => {
     });
     return { success: true };
   } catch (error: any) {
+    console.log(error, " skusss");
     return { error: "resultNotOk" };
   }
 };
@@ -103,7 +117,9 @@ export const updateProduct = async (
 
     let SKU = "";
     if (!values.SKU) {
-      SKU = SKUGenerator(values.name, values.brand, values.sellPrice);
+      SKU = await generateUniqueSKU(
+        SKUGenerator(values.name, values.brand, values.sellPrice)
+      );
     } else {
       SKU = values.SKU;
     }

@@ -25,7 +25,7 @@ export default function PricingRulesTable() {
   });
 
   return (
-    <div className="container mx-auto py-5">
+    <div className="container mx-auto xs:py-5 xxs:pb-10 sm:pb-0 md:px-2">
       {isPending && (
         <div className="flex justify-center items-center w-full h-full">
           <BeatLoader />

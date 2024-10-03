@@ -21,6 +21,7 @@ import { useEffect, useState, useTransition } from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import PricingRulesIdSelector from "./pricingRulesSelector";
 import { Label } from "@/components/ui/label";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
 import {
   addProduct,
   getProduct,
@@ -109,6 +110,12 @@ const AddProductForm = ({
     form.setValue("pricingRulesId", pricingRules);
   }, [pricingRules]);
 
+  useEffect(() => {
+    if (autoSKU && !id) {
+      form.setValue("SKU", "");
+    }
+  }, [autoSKU]);
+
   async function onSubmit(values: z.infer<typeof PorductSchema>) {
     console.log(values);
 
@@ -120,7 +127,7 @@ const AddProductForm = ({
           setSheetOpen(false);
           toast.success(t("productAdded"));
         } else {
-          toast.error(te("resultNotOk"));
+          toast.error(result.error);
         }
       } else {
         const result = await addProduct(values);
@@ -129,7 +136,7 @@ const AddProductForm = ({
           toast.success(t("productAdded"));
           setSheetOpen(false);
         } else {
-          toast.error(te("resultNotOk"));
+          toast.error(result.error);
         }
       }
     });
@@ -138,8 +145,8 @@ const AddProductForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="">
-        <ScrollArea className="h-[500px] w-full">
-          <div className="flex flex-col gap-5 w-full px-1">
+        <ScrollArea className="h-[450px] w-full py-3">
+          <div className="flex flex-col gap-5 w-full px-1 ">
             <div className="flex gap-2">
               <FormField
                 control={form.control}

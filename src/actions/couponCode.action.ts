@@ -24,7 +24,7 @@ export const addCouponCode = async (
         code: values.code,
         type: values.type,
         discount: +values.discount,
-        quantity: +values.quantity,
+        quantity: values.quantity ? +values.quantity : null,
         discountType: values.discountType,
         startDate: values.startDate,
         endDate: values.endDate,
@@ -44,6 +44,22 @@ export const getCouponCode = async (code: string) => {
     });
     if (!couponEXist) {
       return { error: "not found" };
+    }
+    const now = new Date();
+    if (
+      couponEXist.type === "expiry" &&
+      couponEXist.startDate &&
+      couponEXist.endDate
+    ) {
+      if (now < couponEXist.startDate || now > couponEXist.endDate) {
+        return { error: "code expired" };
+      }
+    }
+
+    console.log("couponEXist.quantity: ", couponEXist.quantity);
+    if (couponEXist.quantity != null && couponEXist.quantity < 1) {
+      console.log("is 0");
+      return { error: "code quantity is finished" };
     }
     return { success: true, couponCode: couponEXist };
   } catch (error: any) {
