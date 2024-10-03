@@ -25,8 +25,8 @@ const ProductList = ({ isPending, data, type }: ProductListProps) => {
   return (
     <Card className={"w-4/5"}>
       <CardHeader></CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[400px] ">
+      <CardContent className="flex justify-center items-center">
+        <ScrollArea className="h-[400px] flex justify-center items-center">
           {isPending && type === "Product" && (
             <div className="flex justify-center items-center pt-52 w-full h-full">
               <SyncLoader />
@@ -42,6 +42,8 @@ const ProductList = ({ isPending, data, type }: ProductListProps) => {
               <SyncLoader />
             </div>
           )}
+          {!isPending && data && data.length === 0}
+          {<h2 className="font-bold text-2xl">nothing here yet</h2>}
           {data && data.length > 0 && (
             <div className="flex flex-col gap-3">
               {!isPending &&

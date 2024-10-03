@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { calculateCartTotals } from "@/lib/calculateCartTotals";
 import React, { useCallback, useEffect, useReducer } from "react";
 import { RootState } from "@/store/store";
+import { customProductInCart } from "@/types/cart.types";
 const initialState = {
   originalTotalPrice: 0,
   discountAmount: 0,
@@ -55,80 +56,83 @@ const CheckoutSummary = () => {
   // );
 
   useEffect(() => {
-    const { originalTotalPrice, discountAmount, priceAfterDiscount } =
-      calculateCartTotalsMemoized(products);
+    if (products && products.length > 0) {
+      const { originalTotalPrice, discountAmount, priceAfterDiscount } =
+        calculateCartTotalsMemoized(products as customProductInCart[]);
 
-    console.log(
-      originalTotalPrice,
-      discountAmount,
-      priceAfterDiscount,
-      " fgfg"
-    );
-    if (couponCode) {
-      if (couponCode.discountType === "fixAmount") {
-        const newPriceAfterDiscount = priceAfterDiscount - couponCode.discount;
-        const newDiscountAmount = discountAmount + couponCode.discount;
-        dispatch({
-          type: "SET_DISCOUNT_AMOUNT",
-          payload: Math.max(0, newDiscountAmount),
-        });
-        dispatch({
-          type: "SET_PRICE_AFTER_DISCOUNT",
-          payload: Math.max(0, newPriceAfterDiscount),
-        });
-        dispatch({
-          type: "SET_DISCOUNT_FROM_COUPON",
-          payload: Math.max(0, couponCode.discount),
-        });
+      console.log(
+        originalTotalPrice,
+        discountAmount,
+        priceAfterDiscount,
+        " fgfg"
+      );
+      if (couponCode) {
+        if (couponCode.discountType === "fixAmount") {
+          const newPriceAfterDiscount =
+            priceAfterDiscount - couponCode.discount;
+          const newDiscountAmount = discountAmount + couponCode.discount;
+          dispatch({
+            type: "SET_DISCOUNT_AMOUNT",
+            payload: Math.max(0, newDiscountAmount),
+          });
+          dispatch({
+            type: "SET_PRICE_AFTER_DISCOUNT",
+            payload: Math.max(0, newPriceAfterDiscount),
+          });
+          dispatch({
+            type: "SET_DISCOUNT_FROM_COUPON",
+            payload: Math.max(0, couponCode.discount),
+          });
 
-        dispatch({
-          type: "SET_ORIGINAL_PRICE",
-          payload: Math.max(0, originalTotalPrice),
-        });
-      } else if (couponCode.discountType === "percentage") {
-        const newPriceAfterDiscount =
-          priceAfterDiscount * (1 - couponCode.discount / 100);
-        const discountAmount = priceAfterDiscount - newPriceAfterDiscount;
-        const newDiscountAmount = discountAmount + discountAmount;
-        dispatch({
-          type: "SET_DISCOUNT_AMOUNT",
-          payload: Math.max(0, newDiscountAmount),
-        });
-        dispatch({
-          type: "SET_PRICE_AFTER_DISCOUNT",
-          payload: Math.max(0, newPriceAfterDiscount),
-        });
-        dispatch({
-          type: "SET_DISCOUNT_FROM_COUPON",
-          payload: Math.max(0, discountAmount),
-        });
-        dispatch({
-          type: "SET_ORIGINAL_PRICE",
-          payload: Math.max(0, originalTotalPrice),
-        });
+          dispatch({
+            type: "SET_ORIGINAL_PRICE",
+            payload: Math.max(0, originalTotalPrice),
+          });
+        } else if (couponCode.discountType === "percentage") {
+          const newPriceAfterDiscount =
+            priceAfterDiscount * (1 - couponCode.discount / 100);
+          const discountAmount = priceAfterDiscount - newPriceAfterDiscount;
+          const newDiscountAmount = discountAmount + discountAmount;
+          dispatch({
+            type: "SET_DISCOUNT_AMOUNT",
+            payload: Math.max(0, newDiscountAmount),
+          });
+          dispatch({
+            type: "SET_PRICE_AFTER_DISCOUNT",
+            payload: Math.max(0, newPriceAfterDiscount),
+          });
+          dispatch({
+            type: "SET_DISCOUNT_FROM_COUPON",
+            payload: Math.max(0, discountAmount),
+          });
+          dispatch({
+            type: "SET_ORIGINAL_PRICE",
+            payload: Math.max(0, originalTotalPrice),
+          });
+        }
+        return;
       }
-      return;
+
+      dispatch({
+        type: "SET_ORIGINAL_PRICE",
+        payload: originalTotalPrice ? originalTotalPrice : 0,
+      });
+      dispatch({
+        type: "SET_DISCOUNT_AMOUNT",
+        payload: discountAmount ? discountAmount : 0,
+      });
+      dispatch({
+        type: "SET_PRICE_AFTER_DISCOUNT",
+        payload: priceAfterDiscount ? priceAfterDiscount : 0,
+      });
+
+      console.log(
+        originalTotalPrice,
+        discountAmount,
+        priceAfterDiscount,
+        " gggfg"
+      );
     }
-
-    dispatch({
-      type: "SET_ORIGINAL_PRICE",
-      payload: originalTotalPrice ? originalTotalPrice : 0,
-    });
-    dispatch({
-      type: "SET_DISCOUNT_AMOUNT",
-      payload: discountAmount ? discountAmount : 0,
-    });
-    dispatch({
-      type: "SET_PRICE_AFTER_DISCOUNT",
-      payload: priceAfterDiscount ? priceAfterDiscount : 0,
-    });
-
-    console.log(
-      originalTotalPrice,
-      discountAmount,
-      priceAfterDiscount,
-      " gggfg"
-    );
   }, [products, calculateCartTotalsMemoized, couponCode]);
 
   return (

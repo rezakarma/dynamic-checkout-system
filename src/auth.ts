@@ -19,7 +19,7 @@ export const lucia = new Lucia(prisma, {
       id: attributes.id,
       email: attributes.email,
       role: attributes.role,
-      username: attributes.userName,
+      username: attributes.username
     };
   },
 });

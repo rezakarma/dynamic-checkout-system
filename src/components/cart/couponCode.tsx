@@ -6,12 +6,14 @@ import { Label } from "../ui/label";
 import { useState } from "react";
 import { applyCouponCode } from "@/store/cart-slice";
 import { useDispatch } from "react-redux";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "@/store/store";
 const CouponCode = () => {
   const [couponCode, setCouponCode] = useState<string>("");
   const t = useTranslations("cart");
   const ta = useTranslations("adminProduct");
 
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
   const applyCouponCodeHandler = () => {
     if (couponCode) {
       dispatch(applyCouponCode(couponCode));
