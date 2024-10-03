@@ -17,7 +17,12 @@ export const addCouponCode = async (
     });
 
     if (codeExist) {
+    console.log('df', ' hdhd');
+
       return { error: "code exist already" };
+    }
+    if(+values.discount <= 0) {
+      return {error: 'discount amoint must be greater than 0'}
     }
     await db.couponCodes.create({
       data: {
@@ -31,7 +36,8 @@ export const addCouponCode = async (
       },
     });
     return { success: true };
-  } catch {
+  } catch (error) {
+    console.log(error, ' hdhd');
     return { error: "resultNotOk" };
   }
 };

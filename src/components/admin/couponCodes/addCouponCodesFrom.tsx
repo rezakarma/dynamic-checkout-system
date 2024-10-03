@@ -15,11 +15,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
-import {
-  useEffect,
-  useState,
-  useTransition,
-} from "react";
+import { useEffect, useState, useTransition } from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import {
   Select,
@@ -144,8 +140,10 @@ const AddCouponCodesForm = ({ id }: { id: string | null }) => {
         if (result.success) {
           queryClient.invalidateQueries({ queryKey: ["couponCodes"] });
           toast.success("coupon code added");
-        } else {
+        } else if (result.error === "resultNotOk") {
           toast.error(te("resultNotOk"));
+        } else {
+          toast.error(result.error);
         }
       }
     });
@@ -282,7 +280,8 @@ const AddCouponCodesForm = ({ id }: { id: string | null }) => {
                       <DateInput
                         label="Start Date"
                         value={
-                          field.value ? fromDate(field.value, "") : undefined
+                          // @ts-expect-error fnf
+                          field.value ? fromDate(field.value) : undefined
                         }
                         onChange={(e) => {
                           field.onChange(e.toDate());
@@ -306,7 +305,8 @@ const AddCouponCodesForm = ({ id }: { id: string | null }) => {
                       <DateInput
                         label="End Date"
                         value={
-                          field.value ? fromDate(field.value, "") : undefined
+                          // @ts-expect-error fnf
+                          field.value ? fromDate(field.value) : undefined
                         }
                         onChange={(e) => field.onChange(e.toDate())}
                         labelPlacement="outside"

@@ -91,8 +91,10 @@ const CheckoutSummary = () => {
         } else if (couponCode.discountType === "percentage") {
           const newPriceAfterDiscount =
             priceAfterDiscount * (1 - couponCode.discount / 100);
-          const discountAmount = priceAfterDiscount - newPriceAfterDiscount;
-          const newDiscountAmount = discountAmount + discountAmount;
+          const discountAmountOfCoupon =
+            priceAfterDiscount - newPriceAfterDiscount;
+            const newDiscountAmount = discountAmount + discountAmountOfCoupon;
+            console.log('discountAmount: ',discountAmount, ' discountAmountOfCoupon: ',discountAmountOfCoupon , ' newDiscountAmount: ',newDiscountAmount)
           dispatch({
             type: "SET_DISCOUNT_AMOUNT",
             payload: Math.max(0, newDiscountAmount),
@@ -103,7 +105,7 @@ const CheckoutSummary = () => {
           });
           dispatch({
             type: "SET_DISCOUNT_FROM_COUPON",
-            payload: Math.max(0, discountAmount),
+            payload: Math.max(0, discountAmountOfCoupon),
           });
           dispatch({
             type: "SET_ORIGINAL_PRICE",
