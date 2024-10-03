@@ -4,6 +4,7 @@ import ProductList from "@/components/scaningProducts/productList";
 import ScanProduct from "@/components/scaningProducts/scanProduct";
 import { Separator } from "@/components/ui/separator";
 import useDebounce from "@/hooks/useDebounce";
+import { RootState } from "@/store/store";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -22,8 +23,8 @@ const ScaningProductPage = () => {
       }
     },
   });
-  const cartProducts = useSelector((state) => state.cart.products);
-  const cartIsLoading = useSelector((state) => state.cart.isLoading);
+  const cartProducts = useSelector((state: RootState) => state.cart.products);
+  const cartIsLoading = useSelector((state: RootState) => state.cart.isLoading);
   useEffect(() => {
     console.log(data, " injaa");
   }, [data]);

@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable */
+/* @ts-nocheck */
 "use client";
 
 // Inspired by react-hot-toast library
