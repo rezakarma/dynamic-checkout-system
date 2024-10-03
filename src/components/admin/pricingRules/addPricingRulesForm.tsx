@@ -20,8 +20,6 @@ import {
   useEffect,
   useState,
   useTransition,
-  SetStateAction,
-  Dispatch,
 } from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import { toast } from "sonner";
@@ -43,10 +41,8 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 const AddPricingRulesForm = ({
   id,
-  setSheetOpen,
 }: {
   id: string | null;
-  setSheetOpen: Dispatch<SetStateAction<undefined | boolean>>;
 }) => {
   const t = useTranslations("adminProduct");
   const tp = useTranslations("adminPricingRules");
@@ -183,7 +179,6 @@ const AddPricingRulesForm = ({
           toast.success(tp("pricingRuleAdded"));
           queryClient.invalidateQueries({ queryKey: ["pricingRules"] });
 
-          setSheetOpen(false);
         } else {
           toast.error(te("resultNotOk"));
         }
@@ -193,7 +188,6 @@ const AddPricingRulesForm = ({
           toast.success(tp("pricingRuleAdded"));
           queryClient.invalidateQueries({ queryKey: ["pricingRules"] });
 
-          setSheetOpen(false);
         } else {
           toast.error(te("resultNotOk"));
         }

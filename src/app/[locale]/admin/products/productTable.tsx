@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/components/ui/data-table";
 
 async function getData(): Promise<Product[]> {
-  // Fetch data from your API here.
 
   const result = await getAllProducts("");
 

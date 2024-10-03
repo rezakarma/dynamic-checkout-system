@@ -11,15 +11,13 @@ import {
 import { FilePenLine, PackagePlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import AddProductForm from "./addProductForm";
-import { useState } from "react";
 
 const AddProduct = ({ id = null }: { id: string | null }) => {
   const t = useTranslations("admin");
   const tp = useTranslations("adminProduct");
-  const [sheetOpen, setSheetOpen] = useState<boolean|undefined>();
 
   return (
-    <Sheet open={sheetOpen}>
+    <Sheet>
       <SheetTrigger asChild>
         <Button
           variant={id ? "secondary" : "default"}
@@ -34,7 +32,7 @@ const AddProduct = ({ id = null }: { id: string | null }) => {
           <SheetTitle>{id ? tp("edit") : t("product.add")}</SheetTitle>
           <SheetDescription>{t("product.description")}</SheetDescription>
         </SheetHeader>
-        <AddProductForm id={id ? id : null} setSheetOpen={setSheetOpen} />
+        <AddProductForm id={id ? id : null} />
       </SheetContent>
     </Sheet>
   );

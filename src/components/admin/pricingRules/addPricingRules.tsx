@@ -11,13 +11,11 @@ import {
 import { FilePenLine, FilePlus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import AddPricingRulesForm from "./addPricingRulesForm";
-import { useState } from "react";
 
 const AddPricingRules = ({ id }: { id: string | null }) => {
   const t = useTranslations("adminPricingRules");
-  const [sheetOpen, setSheetOpen] = useState<boolean | undefined>();
   return (
-    <Sheet open={sheetOpen}>
+    <Sheet>
       <SheetTrigger asChild>
         <Button className="flex items-center justify-center gap-2">
           {id ? <FilePenLine /> : <FilePlus />}
@@ -31,7 +29,7 @@ const AddPricingRules = ({ id }: { id: string | null }) => {
           </SheetTitle>
           <SheetDescription>{t("pricingRulesDescription")}</SheetDescription>
         </SheetHeader>
-        <AddPricingRulesForm id={id ? id : null} setSheetOpen={setSheetOpen} />
+        <AddPricingRulesForm id={id ? id : null} />
       </SheetContent>
     </Sheet>
   );

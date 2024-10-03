@@ -85,7 +85,7 @@ const Navbar = ({ locale }: { locale: string }) => {
     pathname !== `/signup`
   ) {
     return (
-      <div className="flex flex-col w-screen py-4 gap-4">
+      <div className="flex flex-col py-4 gap-4">
         <div className="flex gap-2 justify-between mx-5">
           <LanguageChanger locale={locale} />
           <div className="flex gap-2">

@@ -17,8 +17,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import {
-  Dispatch,
-  SetStateAction,
   useEffect,
   useState,
   useTransition,
@@ -36,10 +34,8 @@ import { Loader2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 const AddProductForm = ({
   id,
-  setSheetOpen,
 }: {
   id: string | null;
-  setSheetOpen: Dispatch<SetStateAction<undefined | boolean>>;
 }) => {
   const t = useTranslations("adminProduct");
   const tz = useTranslations("zodErrors");
@@ -127,7 +123,6 @@ const AddProductForm = ({
         const result = await updateProduct(id, values);
         if (result.success) {
           queryClient.invalidateQueries({ queryKey: ["products"] });
-          setSheetOpen(false);
           toast.success(t("productAdded"));
         } else {
           toast.error(result.error);
@@ -137,7 +132,6 @@ const AddProductForm = ({
         if (result.success) {
           queryClient.invalidateQueries({ queryKey: ["products"] });
           toast.success(t("productAdded"));
-          setSheetOpen(false);
         } else {
           toast.error(result.error);
         }

@@ -10,14 +10,12 @@ import {
 } from "@/components/ui/sheet";
 import { FilePenLine, FilePlus } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import AddCouponCodesForm from "./addCouponCodesFrom";
 
 const AddCouponCodes = ({ id }: { id: string | null }) => {
   const t = useTranslations("couponCodes");
-  const [sheetOpen, setSheetOpen] = useState<boolean | undefined>();
   return (
-    <Sheet open={sheetOpen}>
+    <Sheet >
       <SheetTrigger asChild>
         <Button className="flex items-center justify-center gap-2">
           {id ? <FilePenLine /> : <FilePlus />}
@@ -31,7 +29,7 @@ const AddCouponCodes = ({ id }: { id: string | null }) => {
           </SheetTitle>
           <SheetDescription>{t("couponCodeDescription")}</SheetDescription>
         </SheetHeader>
-        <AddCouponCodesForm id={id ? id : null} setSheetOpen={setSheetOpen} />
+        <AddCouponCodesForm id={id ? id : null} />
       </SheetContent>
     </Sheet>
   );

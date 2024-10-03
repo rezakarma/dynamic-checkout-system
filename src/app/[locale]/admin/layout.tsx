@@ -1,3 +1,4 @@
+"use client";
 import AdminMenu from "@/components/admin/adminMenu";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
